@@ -42,7 +42,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
 		ps.subscribe(psv);
 
 		lv = new LaneView( lane, laneNum );
-		lane.subscribe(lv);
+		lane.getLaneSubscriber().subscribe(lv);
 
 
 		jp = new JPanel();
