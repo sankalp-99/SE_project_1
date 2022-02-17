@@ -24,6 +24,7 @@
  */
 
 import java.util.HashMap;
+import java.util.Vector;
 
 public class LaneEvent {
 
@@ -89,6 +90,11 @@ public class LaneEvent {
 	
 	public Bowler getBowler() {
 		return bowler;
+	}
+	
+	public Vector getPartyMembers()
+	{
+		return p.getMembers();
 	}
 
 };

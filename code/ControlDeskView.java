@@ -17,7 +17,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.event.*;
+//import javax.swing.event.*;
 
 import java.util.*;
 
@@ -26,6 +26,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	private JButton addParty, finished, assign;
 	private JFrame win;
 	private JList partyList;
+	
+	
 	
 	/** The maximum  number of members in a party */
 	private int maxMembers;
@@ -37,6 +39,18 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	 *
 	 */
 
+	public JButton makeButton(JPanel panel,String str)
+	{
+		JPanel buttonPanel=new JPanel();
+		JButton button=new JButton(str);
+		buttonPanel.setLayout(new FlowLayout());
+		button.addActionListener(this);
+		buttonPanel.add(button);
+		panel.add(buttonPanel);
+		
+		return button;
+	}
+	
 	public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
 
 		this.controlDesk = controlDesk;
@@ -55,26 +69,30 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		controlsPanel.setLayout(new GridLayout(3, 1));
 		controlsPanel.setBorder(new TitledBorder("Controls"));
 
-		addParty = new JButton("Add Party");
-		JPanel addPartyPanel = new JPanel();
-		addPartyPanel.setLayout(new FlowLayout());
-		addParty.addActionListener(this);
-		addPartyPanel.add(addParty);
-		controlsPanel.add(addPartyPanel);
-
-		assign = new JButton("Assign Lanes");
-		JPanel assignPanel = new JPanel();
-		assignPanel.setLayout(new FlowLayout());
-		assign.addActionListener(this);
-		assignPanel.add(assign);
+//		addParty = new JButton("Add Party");
+//		JPanel addPartyPanel = new JPanel();
+//		addPartyPanel.setLayout(new FlowLayout());
+//		addParty.addActionListener(this);
+//		addPartyPanel.add(addParty);
+//		controlsPanel.add(addPartyPanel);
+		addParty=makeButton(controlsPanel,"Add Party");
+		
+        
+		// this code is not useful
+//		assign = new JButton("Assign Lanes");
+//		JPanel assignPanel = new JPanel();
+//		assignPanel.setLayout(new FlowLayout());
+//		assign.addActionListener(this);
+//		assignPanel.add(assign);
 //		controlsPanel.add(assignPanel);
 
-		finished = new JButton("Finished");
-		JPanel finishedPanel = new JPanel();
-		finishedPanel.setLayout(new FlowLayout());
-		finished.addActionListener(this);
-		finishedPanel.add(finished);
-		controlsPanel.add(finishedPanel);
+//		finished = new JButton("Finished");
+//		JPanel finishedPanel = new JPanel();
+//		finishedPanel.setLayout(new FlowLayout());
+//		finished.addActionListener(this);
+//		finishedPanel.add(finished);
+//		controlsPanel.add(finishedPanel);
+		finished=makeButton(controlsPanel,"Finished");
 
 		// Lane Status Panel
 		JPanel laneStatusPanel = new JPanel();

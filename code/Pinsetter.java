@@ -99,10 +99,14 @@ public class Pinsetter {
 	 * @post all subscribers have recieved pinsetter event with updated state
 	 * */
 	private void sendEvent(int jdpins) {	// send events when our state is changd
-		for (int i=0; i < subscribers.size(); i++) {
-			((PinsetterObserver)subscribers.get(i)).receivePinsetterEvent(
-				new PinsetterEvent(pins, foul, throwNumber, jdpins));
-		}
+//		for (int i=0; i < subscribers.size(); i++) {
+//			((PinsetterObserver)subscribers.get(i)).receivePinsetterEvent(
+//				new PinsetterEvent(pins, foul, throwNumber, jdpins));
+//		}
+		
+		for(Object pso:subscribers )
+			((PinsetterObserver)pso).receivePinsetterEvent(new PinsetterEvent(pins, foul, throwNumber, jdpins));
+		
 	}
 
 	/** Pinsetter()

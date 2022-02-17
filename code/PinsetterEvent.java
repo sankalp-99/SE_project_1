@@ -29,9 +29,11 @@ public class PinsetterEvent {
 	public PinsetterEvent(boolean[] ps, boolean foul, int tn, int pinsDownThisThrow) {
 		pinsStillStanding = new boolean[10];
 
-		for (int i=0; i <= 9; i++) {
-			pinsStillStanding[i] = ps[i];
-		}
+//		for (int i=0; i <= 9; i++) {
+//			pinsStillStanding[i] = ps[i];
+//		}
+		
+		System.arraycopy(ps,0,pinsStillStanding,0,10);
 		
 		foulCommited = foul;
 		throwNumber = tn;

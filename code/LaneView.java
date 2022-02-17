@@ -10,7 +10,7 @@ import java.util.*;
 
 public class LaneView implements LaneObserver, ActionListener {
 
-	private int roll;
+//	private int roll;
 	private boolean initDone = true;
 
 	JFrame frame;
@@ -124,7 +124,8 @@ public class LaneView implements LaneObserver, ActionListener {
 
 	public void receiveLaneEvent(LaneEvent le) {
 		if (lane.isPartyAssigned()) {
-			int numBowlers = le.getParty().getMembers().size();
+//			int numBowlers = le.getParty().getMembers().size();
+			int numBowlers = le.getPartyMembers().size();
 			while (!initDone) {
 				//System.out.println("chillin' here.");
 				try {
@@ -144,7 +145,7 @@ public class LaneView implements LaneObserver, ActionListener {
 				JPanel buttonPanel = new JPanel();
 				buttonPanel.setLayout(new FlowLayout());
 
-				Insets buttonMargin = new Insets(4, 4, 4, 4);
+//				Insets buttonMargin = new Insets(4, 4, 4, 4);
 
 				maintenance = new JButton("Maintenance Call");
 				JPanel maintenancePanel = new JPanel();
