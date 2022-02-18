@@ -14,6 +14,15 @@ public class ScoreStatus implements Serializable{
 	
 	private int[][] finalScores;
 
+	public ScoreStatus()
+	{
+		scores = new HashMap();
+	// 	curScores = new int[party.getMembers().size()];
+	// 	cumulScores = new int[party.getMembers().size()][10];
+	// 	finalScores = new int[party.getMembers().size()][128]; //Hardcoding a max of 128 games, bite me.
+
+	}
+
 	public void setFinalScore(int bowlIndex, int gameNumber, int input){
 		finalScores[bowlIndex][gameNumber] = input;
 	}
@@ -56,6 +65,7 @@ public class ScoreStatus implements Serializable{
 	 * @post scoring system is initialized
 	 */
 	public void resetScores(Lane lane) {
+		
 		Iterator bowlIt = (lane.getParty().getMembers()).iterator();
 
 		while ( bowlIt.hasNext() ) {
@@ -84,6 +94,7 @@ public class ScoreStatus implements Serializable{
 	 * @param score	The bowler's score 
 	 */
 	public void markScore(Lane lane, Bowler Cur, int frame, int ball, int score, int bowlIndex){
+		
 		int[] curScore;
 		int index =  ( (frame - 1) * 2 + ball);
 

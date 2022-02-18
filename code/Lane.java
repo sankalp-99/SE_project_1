@@ -174,6 +174,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	public Lane() { 
 		setter = new Pinsetter();
 		// scores = new HashMap();
+		scoreStatus=new ScoreStatus();
 		// subscribers = new Vector();
 		laneSubscriber = new LaneSubscriber();
 
@@ -181,7 +182,7 @@ public class Lane extends Thread implements PinsetterObserver {
 		partyAssigned = false;
 
 		gameNumber = 0;
-
+        
 		setter.subscribe( this );
 		
 		this.start();
@@ -367,7 +368,8 @@ public class Lane extends Thread implements PinsetterObserver {
 		// curScores = new int[party.getMembers().size()];
 		// cumulScores = new int[party.getMembers().size()][10];
 		// finalScores = new int[party.getMembers().size()][128]; //Hardcoding a max of 128 games, bite me.
-
+        
+		// scoreStatus=new ScoreStatus(theParty);
 		scoreStatus.resetScoreAray(this);
 		gameNumber = 0;
 		
