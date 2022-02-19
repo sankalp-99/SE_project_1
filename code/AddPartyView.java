@@ -149,17 +149,18 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		
 		return button;
 	}
-
+          
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(addPatron)) {
-			if (selectedNick != null && party.size() < maxSize) {
-				if (party.contains(selectedNick)) {
+			if (selectedNick != null && party.size() < maxSize && party.contains(selectedNick)) {
+				
 					System.err.println("Member already in Party");
-				} else {
+			   }
+				 else {
 					party.add(selectedNick);
 					partyList.setListData(party);
 				}
-			}
+			
 		}
 		if (e.getSource().equals(remPatron)) {
 			if (selectedMember != null) {
@@ -171,7 +172,7 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 			NewPatronView newPatron = new NewPatronView( this );
 		}
 		if (e.getSource().equals(finished)) {
-			if ( party != null && party.size() > 0) {
+			if ( party != null && !party.isEmpty()) {
 				controlDesk.updateAddParty( this );
 			}
 			win.hide();

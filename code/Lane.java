@@ -184,6 +184,120 @@ public class Lane extends Thread implements PinsetterObserver {
 		this.start();
 	}
 
+
+
+
+	
+
+	private void gameNotFinishedPreCheck(){
+		while (gameIsHalted) {
+			try {
+				sleep(10);
+			} catch (Exception e) {}
+		}
+	}
+
+	private void throwerFun(){
+
+		canThrowAgain = true;
+		tenthFrameStrike = false;
+		ball = 0;
+
+		while (canThrowAgain) {
+			setter.ballThrown();		// simulate the thrower's ball hiting
+			ball++;
+		}
+		
+		if (frameNumber == 9){
+			// finalScores[bowlIndex][gameNumber] = cumulScores[bowlIndex][9];
+			scoreStatus.setFinalScore(bowlIndex, gameNumber, scoreStatus.getCumulScore(bowlIndex, 9));
+
+			try{
+			Date date = new Date();
+			String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
+			// ScoreHistoryFile.addScore(currentThrower.getNick(), dateString, new Integer(cumulScores[bowlIndex][9]).toString());
+			ScoreHistoryFile.addScore(currentThrower.getNickName(), dateString, new Integer(scoreStatus.getCumulScore(bowlIndex, 9)).toString());
+			} catch (Exception e) {System.err.println("Exception in addScore. "+ e );} 
+		}
+
+		
+		setter.reset();
+		bowlIndex++;
+	}
+
+	private void gameNotFinishedFun(){
+
+		if (bowlerIterator.hasNext()) {
+			currentThrower = (Bowler)bowlerIterator.next();
+
+			throwerFun();
+			
+		} else {
+			frameNumber++;
+			resetBowlerIterator();
+
+			bowlIndex = 0;
+			if (frameNumber > 9) {
+				gameFinished = true;
+				gameNumber++;
+			}
+		}
+	}
+
+	private void bowlerFun(Bowler thisBowler, int myIndex, Vector printVector){
+
+		ScoreReport sr = new ScoreReport( thisBowler, scoreStatus.getFinalScore(myIndex), gameNumber );
+		sr.sendEmail(thisBowler.getEmail());
+		Iterator printIt = printVector.iterator();
+		while (printIt.hasNext()){
+			if (thisBowler.getNickName().equals( (String)printIt.next())){
+				System.out.println("Printing " + thisBowler.getNickName());
+				sr.sendPrintout();
+			}
+		}
+	}
+
+	private void dontWantToPlayFun(){
+		partyAssigned = false;
+
+		Vector printVector;	
+		EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
+		printVector = egr.getResult();
+
+		Iterator scoreIt = party.getMembers().iterator();
+		party = null;
+		
+		
+		laneSubscriber.publish(lanePublish());
+		
+		int myIndex = 0;
+		while (scoreIt.hasNext()){
+			Bowler thisBowler = (Bowler)scoreIt.next();
+			// ScoreReport sr = new ScoreReport( thisBowler, finalScores[myIndex++], gameNumber );
+			
+			bowlerFun(thisBowler, myIndex, printVector);
+			myIndex++;
+		}
+	}
+
+	private void gameFinishedFun(){
+		EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
+		int result = egp.getResult();
+		egp.distroy();
+		
+		
+		System.out.println("result was: " + result);
+		
+		// TODO: send record of scores to control desk
+		if (result == 1) {					// yes, want to play again
+			scoreStatus.resetScores(this);
+			resetBowlerIterator();
+			
+		} else if (result == 2) {// no, dont want to play another game
+			
+			dontWantToPlayFun();
+		}
+	}
 	
 	/** run()
 	 * 
@@ -193,95 +307,16 @@ public class Lane extends Thread implements PinsetterObserver {
 		
 		while (true) {
 			if (partyAssigned && !gameFinished) {	// we have a party on this lane, 
-								// so next bower can take a throw
+			// so next bower can take a throw
 			
-				while (gameIsHalted) {
-					try {
-						sleep(10);
-					} catch (Exception e) {
-						
-					}
-				}
+				gameNotFinishedPreCheck();
+				gameNotFinishedFun();
 
-
-				if (bowlerIterator.hasNext()) {
-					currentThrower = (Bowler)bowlerIterator.next();
-
-					canThrowAgain = true;
-					tenthFrameStrike = false;
-					ball = 0;
-					while (canThrowAgain) {
-						setter.ballThrown();		// simulate the thrower's ball hiting
-						ball++;
-					}
-					
-					if (frameNumber == 9){
-						
-						scoreStatus.setFinalScore(bowlIndex, gameNumber, scoreStatus.getCumulScore(bowlIndex, 9));
-
-						try{
-						Date date = new Date();
-						String dateString = "" + date.getHours() + ":" + date.getMinutes() + " " + date.getMonth() + "/" + date.getDay() + "/" + (date.getYear() + 1900);
-						ScoreHistoryFile.addScore(currentThrower.getNickName(), dateString, new Integer(scoreStatus.getCumulScore(bowlIndex, 9)).toString());
-						} catch (Exception e) {System.err.println("Exception in addScore. "+ e );} 
-					}
-
-					
-					setter.reset();
-					bowlIndex++;
-					
-				} else {
-					frameNumber++;
-					resetBowlerIterator();
-					bowlIndex = 0;
-					if (frameNumber > 9) {
-						gameFinished = true;
-						gameNumber++;
-					}
-				}
-			} else if (partyAssigned && gameFinished) {
-				EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
-				int result = egp.getResult();
-				egp.distroy();
+			} else if (partyAssigned ) {
 				
-				
-				
-				System.out.println("result was: " + result);
-				
-				// TODO: send record of scores to control desk
-				if (result == 1) {					// yes, want to play again
-					scoreStatus.resetScores(this);
-					resetBowlerIterator();
-					
-				} else if (result == 2) {// no, dont want to play another game
-					Vector printVector;	
-					EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
-					printVector = egr.getResult();
-					partyAssigned = false;
-					Iterator scoreIt = party.getMembers().iterator();
-					party = null;
-					partyAssigned = false;
-					
-					laneSubscriber.publish(lanePublish());
-					
-					int myIndex = 0;
-					while (scoreIt.hasNext()){
-						Bowler thisBowler = (Bowler)scoreIt.next();
-						ScoreReport sr = new ScoreReport( thisBowler, scoreStatus.getFinalScore(myIndex++), gameNumber );
-						sr.sendEmail(thisBowler.getEmail());
-						Iterator printIt = printVector.iterator();
-						while (printIt.hasNext()){
-							if (thisBowler.getNickName() .equals( (String)printIt.next())){
-								System.out.println("Printing " + thisBowler.getNickName());
-								sr.sendPrintout();
-							}
-						}
-
-					}
-				}
+				gameFinishedFun();
 			}
-			
-			
+						
 			try {
 				sleep(10);
 			} catch (Exception e) {}
