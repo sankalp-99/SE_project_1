@@ -322,6 +322,47 @@ public class Lane extends Thread implements PinsetterObserver {
 			} catch (Exception e) {}
 		}
 	}
+
+
+	
+	private void lastFrameFun(PinsetterEvent pe){
+		if (pe.totalPinsDown() == 10) {
+			setter.resetPins();
+			if(pe.getThrowNumber() == 1) {
+				tenthFrameStrike = true;
+			}
+		}
+	
+		if ((pe.totalPinsDown() != 10) && (pe.getThrowNumber() == 2 && tenthFrameStrike == false)) {
+			canThrowAgain = false;
+			//laneSubscriber.publish( lanePublish() );
+		}
+	
+		if (pe.getThrowNumber() == 3) {
+			canThrowAgain = false;
+			//laneSubscriber.publish( lanePublish() );
+		}
+	}
+
+	private void nonLastFrameFun(PinsetterEvent pe){
+		if (pe.pinsDownOnThisThrow() == 10) {		// threw a strike
+			canThrowAgain = false;
+			//laneSubscriber.publish( lanePublish() );
+		} else if (pe.getThrowNumber() == 2) {
+			canThrowAgain = false;
+			//laneSubscriber.publish( lanePublish() );
+		} else if (pe.getThrowNumber() == 3)  
+			System.out.println("I'm here...");
+	}
+
+	private void handleFrameFun(PinsetterEvent pe){
+		if (frameNumber == 9) {
+			lastFrameFun(pe);
+		} else { // its not the 10th frame
+	
+			nonLastFrameFun(pe);
+		}
+	}
 	
 	/** recievePinsetterEvent()
 	 * 
@@ -333,39 +374,19 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * @param pe 		The pinsetter event that has been received.
 	 */
 	public void receivePinsetterEvent(PinsetterEvent pe) {
-		
-			if (pe.pinsDownOnThisThrow() >=  0) {			// this is a real throw
-				scoreStatus.markScore(this, currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow(), bowlIndex);
 	
-				// next logic handles the ?: what conditions dont allow them another throw?
-				// handle the case of 10th frame first
-				if (frameNumber == 9) {
-					if (pe.totalPinsDown() == 10) {
-						setter.resetPins();
-						if(pe.getThrowNumber() == 1) {
-							tenthFrameStrike = true;
-						}
-					}
-				
-					if ((pe.totalPinsDown() != 10) && (pe.getThrowNumber() == 2 && !tenthFrameStrike)) {
-						canThrowAgain = false;
-						
-					}
-				
-					if (pe.getThrowNumber() == 3) {
-						canThrowAgain = false;
-						
-					}
-				} else if (pe.pinsDownOnThisThrow() == 10 || pe.getThrowNumber() == 2){ // its not the 10th frame
-			
-						// threw a strike
-						canThrowAgain = false;
-						
-					 
-				}
-			} 
+		if (pe.pinsDownOnThisThrow() >=  0) {			// this is a real throw
+			scoreStatus.markScore(this, currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow(), bowlIndex);
+
+			// next logic handles the ?: what conditions dont allow them another throw?
+			// handle the case of 10th frame first
+			handleFrameFun(pe);
+		} 
 	}
 	
+
+
+
 	/** resetBowlerIterator()
 	 * 
 	 * sets the current bower iterator back to the first bowler

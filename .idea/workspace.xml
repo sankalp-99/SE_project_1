@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="53a9616b-3687-463d-baf1-d6fe17d8250d" name="Changes" comment="" />
+    <list default="true" id="53a9616b-3687-463d-baf1-d6fe17d8250d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/AddPartyView.java" beforeDir="false" afterPath="$PROJECT_DIR$/code/AddPartyView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/Lane.java" beforeDir="false" afterPath="$PROJECT_DIR$/code/Lane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/LaneView.java" beforeDir="false" afterPath="$PROJECT_DIR$/code/LaneView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/SCOREHISTORY.DAT" beforeDir="false" afterPath="$PROJECT_DIR$/code/SCOREHISTORY.DAT" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/code/ScoreStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/code/ScoreStatus.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +29,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="25FYQasBpHFSHurZ40AIyiqN9wr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,7 +41,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/code" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -38,6 +56,7 @@
       <option name="presentableId" value="Default" />
       <updated>1645124286899</updated>
       <workItem from="1645124288561" duration="144000" />
+      <workItem from="1645260747725" duration="1943000" />
     </task>
     <servers />
   </component>

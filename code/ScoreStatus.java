@@ -110,6 +110,8 @@ public class ScoreStatus implements Serializable{
 	 * 
 	 * @return			The bowlers total score
 	 */
+
+
 	public int getScore( Bowler Cur, int frame, int bowlIndex, int ball) {
 		int[] curScore;
 		int strikeballs = 0;
@@ -128,7 +130,8 @@ public class ScoreStatus implements Serializable{
 				//Add the next ball to the ith one in cumul.
 				cumulScores[bowlIndex][(i/2)] += curScore[i+1] + curScore[i]; 
 				
-			} else if( i < current && i%2 == 0 && curScore[i] == 10  && i < 18){
+			}
+			else if( i < current && i%2 == 0 && curScore[i] == 10  && i < 18){
 				strikeballs = 0;
 				//This ball is the first ball, and was a strike.
 				//If we can get 2 balls after it, good add them to cumul.
@@ -168,10 +171,12 @@ public class ScoreStatus implements Serializable{
 							cumulScores[bowlIndex][(i/2)] += curScore[i+4];
 						}
 					}
-				} else {
+				}
+				else {
 					break;
 				}
-			}else { 
+			}
+			else {
 				//We're dealing with a normal throw, add it and be on our way.
 				if( i%2 == 0 && i < 18){
 					if ( i/2 == 0 ) {
@@ -187,7 +192,8 @@ public class ScoreStatus implements Serializable{
 							cumulScores[bowlIndex][i/2] += cumulScores[bowlIndex][i/2 - 1];
 						}	
 					}
-				} else if (i < 18 && curScore[i] != -1 && i > 2 && curScore[i] != -2){ 
+				}
+				else if (i < 18 && curScore[i] != -1 && i > 2 && curScore[i] != -2){
 					
 						
 							cumulScores[bowlIndex][i/2] += curScore[i];
