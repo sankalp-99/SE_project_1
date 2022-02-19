@@ -32,7 +32,7 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 
 import java.util.*;
-//import java.text.*;
+
 
 /**
  * Constructor for GUI used to Add Parties to the waiting party queue.
@@ -44,14 +44,20 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 	private int maxSize;
 
 	private JFrame win;
-	private JButton addPatron, newPatron, remPatron, finished;
-	private JList partyList, allBowlers;
-	private Vector party, bowlerdb;
-//	private Integer lock;
+	private JButton addPatron;
+	private JButton newPatron;
+	private JButton remPatron;
+	private JButton finished;
+	private JList partyList;
+	private JList allBowlers;
+	private Vector party;
+	private Vector bowlerdb;
+
 
 	private ControlDeskView controlDesk;
 
-	private String selectedNick, selectedMember;
+	private String selectedNick;
+	private String selectedMember;
 
 	public AddPartyView(ControlDeskView controlDesk, int max) {
 
@@ -79,7 +85,7 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		partyList.setVisibleRowCount(5);
 		partyList.addListSelectionListener(this);
 		JScrollPane partyPane = new JScrollPane(partyList);
-		//        partyPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
 		partyPanel.add(partyPane);
 
 		// Bowler Database
@@ -106,41 +112,13 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(4, 1));
 
-//		Insets buttonMargin = new Insets(4, 4, 4, 4);
+
 
 		// code repeition
 		addPatron = makeButton(buttonPanel,"Add to Party");
 		remPatron = makeButton(buttonPanel,"Remove Member");
 		newPatron = makeButton(buttonPanel,"New Patron");
 		finished = makeButton(buttonPanel,"Finished");
-//		addPatron = new JButton("Add to Party");
-//		JPanel addPatronPanel = new JPanel();
-//		addPatronPanel.setLayout(new FlowLayout());
-//		addPatron.addActionListener(this);
-//		addPatronPanel.add(addPatron);
-//
-//		remPatron = new JButton("Remove Member");
-//		JPanel remPatronPanel = new JPanel();
-//		remPatronPanel.setLayout(new FlowLayout());
-//		remPatron.addActionListener(this);
-//		remPatronPanel.add(remPatron);
-//
-//		newPatron = new JButton("New Patron");
-//		JPanel newPatronPanel = new JPanel();
-//		newPatronPanel.setLayout(new FlowLayout());
-//		newPatron.addActionListener(this);
-//		newPatronPanel.add(newPatron);
-//
-//		finished = new JButton("Finished");
-//		JPanel finishedPanel = new JPanel();
-//		finishedPanel.setLayout(new FlowLayout());
-//		finished.addActionListener(this);
-//		finishedPanel.add(finished);
-//
-//		buttonPanel.add(addPatronPanel);
-//		buttonPanel.add(remPatronPanel);
-//		buttonPanel.add(newPatronPanel);
-//		buttonPanel.add(finishedPanel);
 
 		// Clean up main panel
 		colPanel.add(partyPanel);
@@ -233,15 +211,15 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 
 	public void updateNewPatron(NewPatronView newPatron) {
 		try {
-			Bowler checkBowler = BowlerFile.getBowlerInfo( newPatron.getNick() );
+			Bowler checkBowler = BowlerFile.getBowlerInfo( newPatron.getNickName() );
 			if ( checkBowler == null ) {
 				BowlerFile.putBowlerInfo(
-					newPatron.getNick(),
+					newPatron.getNickName(),
 					newPatron.getFull(),
 					newPatron.getEmail());
 				bowlerdb = new Vector(BowlerFile.getBowlers());
 				allBowlers.setListData(bowlerdb);
-				party.add(newPatron.getNick());
+				party.add(newPatron.getNickName());
 				partyList.setListData(party);
 			} else {
 				System.err.println( "A Bowler with that name already exists." );

@@ -13,12 +13,13 @@ import javax.swing.border.*;
 import javax.swing.event.*;
 
 import java.util.*;
-import java.text.*;
+
 
 public class EndGameReport implements ActionListener, ListSelectionListener {
 
 	private JFrame win;
-	private JButton printButton, finished;
+	private JButton printButton;
+	private JButton finished;
 	private JList memberList;
 	private Vector myVector;
 	private Vector retVal;
@@ -46,7 +47,7 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		Vector myVector = new Vector();
 		Iterator iter = (party.getMembers()).iterator();
 		while (iter.hasNext()){
-			myVector.add( ((Bowler)iter.next()).getNick() );
+			myVector.add( ((Bowler)iter.next()).getNickName() );
 		}	
 		memberList = new JList(myVector);
 		memberList.setFixedCellWidth(120);
@@ -63,7 +64,7 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2, 1));
 
-		Insets buttonMargin = new Insets(4, 4, 4, 4);
+		
 
 		printButton = new JButton("Print Report");
 		JPanel printButtonPanel = new JPanel();
@@ -136,7 +137,7 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		}
 		Party party = new Party( bowlers );
 		String partyName="wank";
-		EndGameReport e = new EndGameReport( partyName, party );
+		
 	}
 	
 }

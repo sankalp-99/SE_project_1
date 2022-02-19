@@ -9,21 +9,17 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
 
-import java.util.*;
-import java.text.*;
 
 public class EndGamePrompt implements ActionListener {
 
 	private JFrame win;
-	private JButton yesButton, noButton;
+	private JButton yesButton;
+	private JButton noButton;
 
 	private int result;
 
-	private String selectedNick, selectedMember;
-
+	
 	public EndGamePrompt( String partyName ) {
 
 		result =0;
@@ -48,7 +44,7 @@ public class EndGamePrompt implements ActionListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 2));
 
-		Insets buttonMargin = new Insets(4, 4, 4, 4);
+		
 
 		yesButton = new JButton("Yes");
 		JPanel yesButtonPanel = new JPanel();

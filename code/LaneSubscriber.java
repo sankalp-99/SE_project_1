@@ -28,9 +28,7 @@ public class LaneSubscriber implements Serializable{
 	//  * @param removing	The observer to be removed
 	//  */
 	
-	// public void unsubscribe(LaneObserver removing ) {
-	// 	subscribers.remove( removing );
-	// }
+	
 
 	// /** publish
 	//  *

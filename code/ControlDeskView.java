@@ -17,7 +17,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-//import javax.swing.event.*;
+
 
 import java.util.*;
 
@@ -27,10 +27,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	private JFrame win;
 	private JList partyList;
 	
+	int maxMembers;
 	
-	
-	/** The maximum  number of members in a party */
-	private int maxMembers;
 	
 	private ControlDesk controlDesk;
 
@@ -54,9 +52,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 	public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
 
 		this.controlDesk = controlDesk;
-		this.maxMembers = maxMembers;
 		int numLanes = controlDesk.getNumLanes();
-
+        this.maxMembers=maxMembers;
 		win = new JFrame("Control Desk");
 		win.getContentPane().setLayout(new BorderLayout());
 		((JPanel) win.getContentPane()).setOpaque(false);
@@ -69,29 +66,13 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		controlsPanel.setLayout(new GridLayout(3, 1));
 		controlsPanel.setBorder(new TitledBorder("Controls"));
 
-//		addParty = new JButton("Add Party");
-//		JPanel addPartyPanel = new JPanel();
-//		addPartyPanel.setLayout(new FlowLayout());
-//		addParty.addActionListener(this);
-//		addPartyPanel.add(addParty);
-//		controlsPanel.add(addPartyPanel);
+
 		addParty=makeButton(controlsPanel,"Add Party");
 		
         
-		// this code is not useful
-//		assign = new JButton("Assign Lanes");
-//		JPanel assignPanel = new JPanel();
-//		assignPanel.setLayout(new FlowLayout());
-//		assign.addActionListener(this);
-//		assignPanel.add(assign);
-//		controlsPanel.add(assignPanel);
 
-//		finished = new JButton("Finished");
-//		JPanel finishedPanel = new JPanel();
-//		finishedPanel.setLayout(new FlowLayout());
-//		finished.addActionListener(this);
-//		finishedPanel.add(finished);
-//		controlsPanel.add(finishedPanel);
+
+
 		finished=makeButton(controlsPanel,"Finished");
 
 		// Lane Status Panel
@@ -106,7 +87,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 			Lane curLane = (Lane) it.next();
 			LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1));
 			curLane.getLaneSubscriber().subscribe(laneStat);
-			((Pinsetter)curLane.getPinsetter()).subscribe(laneStat);
+			(curLane.getPinsetter()).subscribe(laneStat);
 			JPanel lanePanel = laneStat.showLane();
 			lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount ));
 			laneStatusPanel.add(lanePanel);
@@ -127,7 +108,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		partyPane.setVerticalScrollBarPolicy(
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		partyPanel.add(partyPane);
-		//		partyPanel.add(partyList);
+		
 
 		// Clean up main panel
 		colPanel.add(controlsPanel, "East");

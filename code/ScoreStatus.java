@@ -1,8 +1,8 @@
-import java.util.Vector;
+
 import java.util.Iterator;
 import java.util.HashMap;
 import java.io.Serializable;
-import java.util.Date;
+
 
 
 public class ScoreStatus implements Serializable{
@@ -17,10 +17,6 @@ public class ScoreStatus implements Serializable{
 	public ScoreStatus()
 	{
 		scores = new HashMap();
-	// 	curScores = new int[party.getMembers().size()];
-	// 	cumulScores = new int[party.getMembers().size()][10];
-	// 	finalScores = new int[party.getMembers().size()][128]; //Hardcoding a max of 128 games, bite me.
-
 	}
 
 	public void setFinalScore(int bowlIndex, int gameNumber, int input){
@@ -77,8 +73,6 @@ public class ScoreStatus implements Serializable{
 		}
 		
 		
-		// gameFinished = false;
-		// frameNumber = 0;
 
 		lane.setGameFinished(false);
 		lane.setFrameNumber(0);
@@ -133,22 +127,17 @@ public class ScoreStatus implements Serializable{
 				//Also, we're not on the current ball.
 				//Add the next ball to the ith one in cumul.
 				cumulScores[bowlIndex][(i/2)] += curScore[i+1] + curScore[i]; 
-				if (i > 1) {
-					//cumulScores[bowlIndex][i/2] += cumulScores[bowlIndex][i/2 -1];
-				}
+				
 			} else if( i < current && i%2 == 0 && curScore[i] == 10  && i < 18){
 				strikeballs = 0;
 				//This ball is the first ball, and was a strike.
 				//If we can get 2 balls after it, good add them to cumul.
 				if (curScore[i+2] != -1) {
 					strikeballs = 1;
-					if(curScore[i+3] != -1) {
+					if(curScore[i+3] != -1 || curScore[i+4] != -1) {
 						//Still got em.
 						strikeballs = 2;
-					} else if(curScore[i+4] != -1) {
-						//Ok, got it.
-						strikeballs = 2;
-					}
+					} 
 				}
 				if (strikeballs == 2){
 					//Add up the strike.
@@ -156,14 +145,14 @@ public class ScoreStatus implements Serializable{
 					cumulScores[bowlIndex][i/2] += 10;
 					if(curScore[i+1] != -1) {
 						cumulScores[bowlIndex][i/2] += curScore[i+1] + cumulScores[bowlIndex][(i/2)-1];
-						if (curScore[i+2] != -1){
+						if (curScore[i+2] != -1  ){
 							if( curScore[i+2] != -2){
 								cumulScores[bowlIndex][(i/2)] += curScore[i+2];
 							}
-						} else {
-							if( curScore[i+3] != -2){
+						} else if( curScore[i+3] != -2){
+							
 								cumulScores[bowlIndex][(i/2)] += curScore[i+3];
-							}
+							
 						}
 					} else {
 						if ( i/2 > 0 ){
@@ -198,12 +187,12 @@ public class ScoreStatus implements Serializable{
 							cumulScores[bowlIndex][i/2] += cumulScores[bowlIndex][i/2 - 1];
 						}	
 					}
-				} else if (i < 18){ 
-					if(curScore[i] != -1 && i > 2){
-						if(curScore[i] != -2){
+				} else if (i < 18 && curScore[i] != -1 && i > 2 && curScore[i] != -2){ 
+					
+						
 							cumulScores[bowlIndex][i/2] += curScore[i];
-						}
-					}
+						
+					
 				}
 				if (i/2 == 9){
 					if (i == 18){
@@ -212,10 +201,10 @@ public class ScoreStatus implements Serializable{
 					if(curScore[i] != -2){
 						cumulScores[bowlIndex][9] += curScore[i];
 					}
-				} else if (i/2 == 10) {
-					if(curScore[i] != -2){
+				} else if (i/2 == 10 && curScore[i] != -2) {
+					
 						cumulScores[bowlIndex][9] += curScore[i];
-					}
+					
 				}
 			}
 		}

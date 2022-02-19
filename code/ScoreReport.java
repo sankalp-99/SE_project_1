@@ -1,6 +1,6 @@
 /**
  * 
- * SMTP implementation based on code by Réal Gagnon mailto:real@rgagnon.com
+ * SMTP implementation based on code by Rï¿½al Gagnon mailto:real@rgagnon.com
  * 
  */
 
@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.Vector;
 import java.util.Iterator;
 import java.net.*;
-//import java.awt.*;
+
 import java.awt.print.*;
 
 public class ScoreReport {
@@ -17,7 +17,7 @@ public class ScoreReport {
 	private String content;
 	
 	public ScoreReport( Bowler bowler, int[] scores, int games ) {
-		String nick = bowler.getNick();
+		String nick = bowler.getNickName();
 		String full = bowler.getFullName();
 		Vector v = null;
 		try{
@@ -60,7 +60,6 @@ public class ScoreReport {
 				new BufferedWriter(
 					new OutputStreamWriter(s.getOutputStream(), "8859_1"));
 
-//			String boundary = "DataSeparatorString";
 
 			// here you are supposed to send your username
 			sendln(in, out, "HELO world");
