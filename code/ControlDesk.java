@@ -90,7 +90,7 @@ class ControlDesk extends Thread {
 			
 			try {
 				sleep(250);
-			} catch (Exception e) {}
+			} catch (Exception e) {e.printStackTrace();}
 		}
 	}
 		
