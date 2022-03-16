@@ -134,6 +134,7 @@
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.Date;
+import java.util.*;
 
 public class Lane extends Thread implements PinsetterObserver {	
 	private Party party;
@@ -160,6 +161,8 @@ public class Lane extends Thread implements PinsetterObserver {
 
 	private LaneSubscriber laneSubscriber;
 	private ScoreStatus scoreStatus;
+
+	private ScoreStatus scoreStatusEnd;
 	/** Lane()
 	 * 
 	 * Constructs a new lane and starts its thread
@@ -240,10 +243,69 @@ public class Lane extends Thread implements PinsetterObserver {
 
 			bowlIndex = 0;
 			if (frameNumber > 9) {
+
+				// here i code
+				int[][] cumulScores=(int[][])scoreStatus.getCumulScores();
+				int winIndex=winnerIndex(cumulScores);
+				int winnerScore=cumulScores[winIndex][9];
+				cumulScores[winIndex][9]=-1;
+
+				int runnerUpIndex=winnerIndex(cumulScores);
+				cumulScores[winIndex][9]=winnerScore;
+
+				int secondChance=giveSecondChance();
+                System.out.println(secondChance);
+				if(winnerScore < cumulScores[runnerUpIndex][9] +secondChance)
+				{
+					System.out.println("three more times");
+				}
+
+
+
+
 				gameFinished = true;
 				gameNumber++;
 			}
 		}
+	}
+
+	
+
+	public int giveSecondChance()
+	{
+		boolean[] pins=new boolean[10];
+		for (int i=0; i <= 9; i++) {
+			pins[i] = true;
+		}
+		int count = 0;
+	
+		Random rnd = new Random();
+		double skill = rnd.nextDouble();
+		for (int i=0; i <= 9; i++) {
+			if (pins[i]) {
+				double pinluck = rnd.nextDouble();
+				
+				if ( ((skill + pinluck)/2.0 * 1.2) > .5 ){
+					pins[i] = false;
+				} 
+				if (!pins[i]) {		// this pin just knocked down
+					count++;
+				}
+			}
+		}
+
+		return count;
+	}
+
+	public int winnerIndex(int[][] cumulScores)
+	{
+		int high=0;
+		for(int i=0;i<cumulScores.length;i++)
+		{
+			if(cumulScores[high][9] < cumulScores[i][9])
+				high=i;
+		}
+		return high;
 	}
 
 	private void bowlerFun(Bowler thisBowler, int myIndex, Vector printVector){
@@ -442,7 +504,7 @@ public class Lane extends Thread implements PinsetterObserver {
 	 * 
 	 * @return		The new lane event
 	 */
-	public LaneEvent lanePublish(  ) {
+	public LaneEvent lanePublish() {
 		return new LaneEvent(party, bowlIndex, currentThrower, scoreStatus.getCumulScores(), scoreStatus.getScore(), frameNumber+1, scoreStatus.getCurScores(), ball, gameIsHalted);
 	}
 	

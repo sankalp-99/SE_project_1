@@ -187,12 +187,19 @@ private void preWork(Bowler Cur, int bowlIndex){
 	}
 
 	public int getScore( Bowler Cur, int frame, int bowlIndex, int ball) {
+        
+        // System.out.println("here : ");
 
 		preWork(Cur, bowlIndex);
 		first8FrameWorkFun(Cur, bowlIndex);
 		ninethFrameWorkFun(Cur, bowlIndex);
 		tenthFrameWorkFun(Cur, bowlIndex);
 		accumulateScore(bowlIndex);
+
+		// for(int i=0;i<10;i++)
+		// System.out.print(cumulScores[bowlIndex][i]+" ");
+
+		// System.out.println();
 
 		return cumulScores[bowlIndex][9];
 	}

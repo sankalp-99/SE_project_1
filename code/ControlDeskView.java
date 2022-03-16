@@ -23,7 +23,8 @@ import java.util.*;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
 
-	private JButton addParty, finished, assign;
+	private JButton addParty, finished;
+	private JButton viewDatabase;
 	private JFrame win;
 	private JList partyList;
 	
@@ -70,7 +71,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		addParty=makeButton(controlsPanel,"Add Party");
 		
         
-
+        viewDatabase=makeButton(controlsPanel,"Database View");
 
 
 		finished=makeButton(controlsPanel,"Finished");
@@ -146,8 +147,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 		if (e.getSource().equals(addParty)) {
 			AddPartyView addPartyWin = new AddPartyView(this, maxMembers);
 		}
-		if (e.getSource().equals(assign)) {
-			controlDesk.assignLane();
+		if (e.getSource().equals(viewDatabase)) {
+			DatabaseView dbv=new DatabaseView(this);
 		}
 		if (e.getSource().equals(finished)) {
 			win.hide();

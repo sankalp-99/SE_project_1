@@ -6,7 +6,7 @@ public class drive {
 	public static void main(String[] args) {
 
 		int numLanes = 3;
-		int maxPatronsPerParty=2;
+		int maxPatronsPerParty=4;
 
 		Alley a = new Alley( numLanes );
 		ControlDesk controlDesk = a.getControlDesk();
