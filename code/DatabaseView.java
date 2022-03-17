@@ -54,13 +54,11 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
     private JPanel ansPanel;
     private JLabel clsLabel;
 
-	private ControlDeskView controlDesk;
-
 	
 
-	public DatabaseView(ControlDeskView controlDesk) {
+	public DatabaseView() {
 
-		this.controlDesk = controlDesk;
+		
 		
 
 		win = new JFrame("Database");
@@ -79,7 +77,7 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
 	
 		
 		
-		// partyPanel.add(partyPanel);
+		
 
 		// Bowler Database
 		
@@ -141,7 +139,7 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
 		}
 		catch(Exception e)
 		{
-
+            
 		}
          
 

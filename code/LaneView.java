@@ -7,10 +7,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 public class LaneView implements LaneObserver, ActionListener {
 
-//	private int roll;
+
 	private boolean initDone = true;
 
 	JFrame frame;
@@ -25,6 +28,7 @@ public class LaneView implements LaneObserver, ActionListener {
 	JLabel[][] scoreLabel;
 	JPanel[][] ballGrid;
 	JPanel[] pins;
+	
 
 	JButton maintenance;
 	Lane lane;
@@ -56,15 +60,16 @@ public class LaneView implements LaneObserver, ActionListener {
 		frame.hide();
 	}
 
-	private JPanel makeFrame(Party party) {
+	private JPanel makeFrame(Party party) throws Exception{
 
 		initDone = false;
 		bowlers = party.getMembers();
 		int numBowlers = bowlers.size();
 
 		JPanel panel = new JPanel();
-
+		
 		panel.setLayout(new GridLayout(0, 1));
+		
 
 		balls = new JPanel[numBowlers][23];
 		ballLabel = new JLabel[numBowlers][23];
@@ -72,6 +77,7 @@ public class LaneView implements LaneObserver, ActionListener {
 		scoreLabel = new JLabel[numBowlers][10];
 		ballGrid = new JPanel[numBowlers][10];
 		pins = new JPanel[numBowlers];
+		
 
 		for (int i = 0; i != numBowlers; i++) {
 			for (int j = 0; j != 23; j++) {
@@ -101,10 +107,14 @@ public class LaneView implements LaneObserver, ActionListener {
 
 		for (int i = 0; i != numBowlers; i++) {
 			pins[i] = new JPanel();
+			
 			pins[i].setBorder(
 				BorderFactory.createTitledBorder(
 					((Bowler) bowlers.get(i)).getNickName()));
-			pins[i].setLayout(new GridLayout(0, 10));
+			pins[i].setLayout(new GridLayout(0, 11));
+
+
+			
 			for (int k = 0; k != 10; k++) {
 				scores[i][k] = new JPanel();
 				scoreLabel[i][k] = new JLabel("  ", SwingConstants.CENTER);
@@ -114,13 +124,23 @@ public class LaneView implements LaneObserver, ActionListener {
 				scores[i][k].add(ballGrid[i][k], BorderLayout.EAST);
 				scores[i][k].add(scoreLabel[i][k], BorderLayout.SOUTH);
 				pins[i].add(scores[i][k], BorderLayout.EAST);
+
+				
 			}
+
+			
+			// BufferedImage myPicture = ImageIO.read(new File("fail.jpg"));
+			// JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+			// pins[i].add(picLabel);
+			
 			panel.add(pins[i]);
+			
 		}
 
 		initDone = true;
 		return panel;
 	}
+
 
 
 
@@ -144,9 +164,44 @@ public class LaneView implements LaneObserver, ActionListener {
 
 		for (int i = 0; i <= le.getFrameNum() - 1; i++) {
 			if (lescores[k][i] != 0)
-				scoreLabel[k][i].setText(
-					(new Integer(lescores[k][i])).toString());
+				scoreLabel[k][i].setText((new Integer(lescores[k][i])).toString());
+				
+				// System.out.print(lescores[k][i]+" ");
 		}
+        BufferedImage myPicture = getEmoji(lescores[k][le.getFrameNum()-1]);
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		
+		
+		if(pins[k].getComponents().length > 10){
+			pins[k].remove(10);
+			pins[k].revalidate();
+			pins[k].repaint();
+		}
+		
+		pins[k].add(picLabel);
+
+		
+		// pins[k].re
+		
+			
+		// System.out.println();
+	}
+
+	public BufferedImage getEmoji(int score)
+	{
+		try{
+		if(score<80)
+			return  ImageIO.read(new File("fail.jpeg"));
+		else if(score<120)
+			return  ImageIO.read(new File("average.jpeg"));
+		else
+			return  ImageIO.read(new File("best.jpeg"));
+		}
+		catch(Exception e)
+		{
+
+		}
+		return null;
 	}
 
 	private void conditionWorkFun(LaneEvent le, int k, int i){
@@ -212,7 +267,12 @@ public class LaneView implements LaneObserver, ActionListener {
 
 			System.out.println("Making the frame.");
 			cpanel.removeAll();
+			try{
 			cpanel.add(makeFrame(le.getParty()), "Center");
+			}catch(Exception e)
+			{
+
+			}
 
 			// Button Panel
 			JPanel buttonPanel = new JPanel();

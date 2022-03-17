@@ -148,7 +148,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
 			AddPartyView addPartyWin = new AddPartyView(this, maxMembers);
 		}
 		if (e.getSource().equals(viewDatabase)) {
-			DatabaseView dbv=new DatabaseView(this);
+			DatabaseView dbv=new DatabaseView();
 		}
 		if (e.getSource().equals(finished)) {
 			win.hide();
