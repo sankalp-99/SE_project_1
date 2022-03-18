@@ -49,11 +49,12 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
 	private JButton averageScore;
 	private JButton topPlayer;
 	private JButton finished;
-
+	private JTextField searchText = new JTextField(30);
+	private JButton search;
 	
-    private JPanel ansPanel;
+    private JTextArea ansPanel;
     private JLabel clsLabel;
-
+	private JScrollPane scroll;
 	
 
 	public DatabaseView() {
@@ -62,6 +63,8 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
 		
 
 		win = new JFrame("Database");
+		win.setPreferredSize( new Dimension( 640, 250 ) );
+
 		win.getContentPane().setLayout(new BorderLayout());
 		((JPanel) win.getContentPane()).setOpaque(false);
 
@@ -69,8 +72,16 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
 		colPanel.setLayout(new GridLayout(1, 3));
 
 		// Party Panel
-	    ansPanel= new JPanel();
+	    ansPanel= new JTextArea();
+		ansPanel.setEditable(false); // set textArea non-editable
+		scroll = new JScrollPane(ansPanel);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		ansPanel.setLineWrap(true);
+		ansPanel.setWrapStyleWord(true);
+		//Add Textarea in to middle panel
+		// middlePanel.add(scroll);
 		ansPanel.setLayout(new FlowLayout());
+
 		ansPanel.setBorder(new TitledBorder("Your Results"));
 		clsLabel = new JLabel();
 
@@ -85,18 +96,22 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
 		// Button Panel
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(5, 1));
+		// buttonPanel.setLayout(null);
 
-
+		buttonPanel.setBorder(new TitledBorder("Functions"));
 
 		// code repeition
+		// searchText = 
+		buttonPanel.add(searchText);
+		search = makeButton(buttonPanel,"Search");
 		maxScore = makeButton(buttonPanel,"Maximum Score");
 		minScore= makeButton(buttonPanel,"Minimum Score");
 		averageScore= makeButton(buttonPanel,"Average Score");
 		topPlayer= makeButton(buttonPanel,"Top player");
 		finished=makeButton(buttonPanel,"finished");
-
+		 
 		// Clean up main panel
-		colPanel.add(ansPanel);
+		colPanel.add(scroll);
 		
 		colPanel.add(buttonPanel);
 
@@ -200,30 +215,55 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
          
 
 	}
+	public void searchwithplayer(String s)
+	{
+
+		try
+		{
+			Database db=new Database();
+			String res=db.search(s);
+			// clsLabel.setText(res);
+			ansPanel.append(res);
+			win.setVisible(true);
+
+		}
+		catch(Exception  e)
+		{
+
+		}
+
+	}
 
 	
 
 
 	public void actionPerformed(ActionEvent e) {
 		
+		ansPanel.setText("");
+		
 		if (e.getSource().equals(maxScore)) {
 			printMaxScore();
 			
 		}
-		if (e.getSource().equals(minScore)) {
+		else if (e.getSource().equals(search)) {
+			String s = searchText.getText();
+			searchwithplayer(s);
+		}
+		
+		else if (e.getSource().equals(minScore)) {
 			printMinScore();
 			
 		}
-		if (e.getSource().equals(averageScore)) {
+		else if (e.getSource().equals(averageScore)) {
 			printAverageScore();
 			
 		}
-		if (e.getSource().equals(topPlayer)) {
+		else if (e.getSource().equals(topPlayer)) {
              printTopPlayer();
 		
 		}
 
-		if (e.getSource().equals(finished)) {
+		else if (e.getSource().equals(finished)) {
 			
 			win.hide();
 		}

@@ -1,11 +1,45 @@
 import java.io.File;
 import java.util.HashMap;
 import java.util.Scanner;
-
+import java.io.*;
 
 public class Database {
     private static String SCOREHISTORY_DAT = "SCOREHISTORY.DAT";
     
+    public String search(String searchText) throws Exception
+    {
+
+        File file = new File(SCOREHISTORY_DAT);
+        Scanner sc = new Scanner(file);        
+        String result ="";
+        int i=1;
+        
+        if (searchText.equals(""))
+        {
+            return "Not a valid name";
+        }
+        while (sc.hasNextLine()){
+            String line=sc.nextLine();
+            String arr[] = line.split("\t",-1);
+            String name=arr[0];
+            
+            // System.out.println(name);
+            if(name.equals(searchText))
+            {
+
+                result+=i + ".  "+line+"\n";
+                i++;
+            }
+            
+        }
+
+        if (result.equals(""))
+        {
+            result+="No record for "+ searchText;
+        }
+        return result;
+    } 
+
     public String maxScore() throws Exception
     {
         
@@ -124,6 +158,7 @@ public class Database {
         System.out.println(db.minScore());
         System.out.println(db.averageScore());
         System.out.println(db.topPlayer());
+        System.out.println(db.search("Mike"));
 
     }
     
