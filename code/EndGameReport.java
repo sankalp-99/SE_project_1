@@ -16,20 +16,23 @@ import java.util.*;
 
 
 public class EndGameReport implements ActionListener, ListSelectionListener {
-
+ 
 	private JFrame win;
 	private JButton printButton;
 	private JButton finished;
 	private JList memberList;
-	private Vector myVector;
 	private Vector retVal;
-
+    
 	private int result;
-
+	private int[][] cumulScores;
+	private Party party;
+	
 	private String selectedMember;
 
-	public EndGameReport( String partyName, Party party ) {
-	
+	public EndGameReport( String partyName, Party party,int[][] cumulScores) {
+		this.cumulScores=cumulScores;
+		this.party=party;
+		
 		result =0;
 		retVal = new Vector();
 		win = new JFrame("End Game Report for " + partyName + "?" );
@@ -59,28 +62,14 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 
 		partyPanel.add( memberList );
 
-		// Button Panel
-		// Button Panel
+		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2, 1));
 
 		
-
-		printButton = new JButton("Print Report");
-		JPanel printButtonPanel = new JPanel();
-		printButtonPanel.setLayout(new FlowLayout());
-		printButton.addActionListener(this);
-		printButtonPanel.add(printButton);
-
-		finished = new JButton("Finished");
-		JPanel finishedPanel = new JPanel();
-		finishedPanel.setLayout(new FlowLayout());
-		finished.addActionListener(this);
-		finishedPanel.add(finished);
-
-		buttonPanel.add(printButton);
-		buttonPanel.add(finished);
-
+        printButton=makeButton(buttonPanel,"Print Report");
+		finished =makeButton(buttonPanel,"Finished");
+		
 		// Clean up main panel
 		colPanel.add(partyPanel);
 		colPanel.add(buttonPanel);
@@ -96,12 +85,37 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 			((screenSize.height) / 2) - ((win.getSize().height) / 2));
 		win.show();
 
+
+
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(printButton)) {		
-			//Add selected to the vector.
+
+	
+
+	public JButton makeButton(JPanel panel,String str)
+	{
+		JPanel buttonPanel=new JPanel();
+		JButton button=new JButton(str);
+		buttonPanel.setLayout(new FlowLayout());
+		button.addActionListener(this);
+		buttonPanel.add(button);
+		panel.add(buttonPanel);
+		
+		return button;
+	}
+
+	public void actionPerformed(ActionEvent e){
+		if (e.getSource().equals(printButton)) {
+            try{
+			ReportView rv=new ReportView(cumulScores,party);
 			retVal.add(selectedMember);
+			}
+			catch(Exception ex)
+			{
+
+			}
+
+			
 		}
 		if (e.getSource().equals(finished)) {		
 			win.hide();
@@ -130,15 +144,6 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
 		win.hide();
 	}
 
-	public static void main( String args[] ) {
-		Vector bowlers = new Vector();
-		for ( int i=0; i<4; i++ ) {
-			bowlers.add( new Bowler( "aaaaa", "aaaaa", "aaaaa" ) );
-		}
-		Party party = new Party( bowlers );
-		String partyName="wank";
-		
-	}
 	
 }
 

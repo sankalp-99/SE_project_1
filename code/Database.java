@@ -16,14 +16,15 @@ public class Database {
         
         if (searchText.equals(""))
         {
+            sc.close();
             return "Not a valid name";
         }
         while (sc.hasNextLine()){
             String line=sc.nextLine();
-            String arr[] = line.split("\t",-1);
+            String[] arr = line.split("\t",-1);
             String name=arr[0];
             
-            // System.out.println(name);
+           
             if(name.equals(searchText))
             {
 
@@ -37,6 +38,7 @@ public class Database {
         {
             result+="No record for "+ searchText;
         }
+        sc.close();
         return result;
     } 
 
@@ -62,7 +64,7 @@ public class Database {
         }
         
         
-        
+        sc.close();
         return maxPlayer+" "+max;
     }
 
@@ -89,7 +91,7 @@ public class Database {
         }
         
         
-        
+        sc.close();
         return minPlayer+" "+min;
     }
 
@@ -146,20 +148,11 @@ public class Database {
             
         }
         
-        
+        sc.close();
         
         return maxPlayer+" "+max;
     }
 
-    public static void main(String[] args) throws Exception
-    {
-        Database db=new Database();
-        System.out.println(db.maxScore());
-        System.out.println(db.minScore());
-        System.out.println(db.averageScore());
-        System.out.println(db.topPlayer());
-        System.out.println(db.search("Mike"));
-
-    }
+    
     
 }

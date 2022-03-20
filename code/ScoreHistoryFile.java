@@ -39,6 +39,7 @@ public class ScoreHistoryFile {
 				scores.add(new Score(scoredata[0], scoredata[1], scoredata[2]));
 			}
 		}
+		in.close();
 		return scores;
 	}
 

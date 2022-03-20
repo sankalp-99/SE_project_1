@@ -308,24 +308,28 @@ public class Lane extends Thread implements PinsetterObserver {
 		return high;
 	}
 
-	private void bowlerFun(Bowler thisBowler, int myIndex, Vector printVector){
+	public void bowlerFun(Bowler thisBowler, int myIndex, Vector printVector){
 
 		ScoreReport sr = new ScoreReport( thisBowler, scoreStatus.getFinalScore(myIndex), gameNumber );
 		sr.sendEmail(thisBowler.getEmail());
 		Iterator printIt = printVector.iterator();
 		while (printIt.hasNext()){
-			if (thisBowler.getNickName().equals( (String)printIt.next())){
+			if (thisBowler.getNickName().equals(printIt.next())){
 				System.out.println("Printing " + thisBowler.getNickName());
 				sr.sendPrintout();
 			}
 		}
 	}
 
-	private void dontWantToPlayFun(){
+	public void dontWantToPlayFun(){
 		partyAssigned = false;
 
 		Vector printVector;	
-		EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
+
+		int[][] cumulScores=(int[][])scoreStatus.getCumulScores();
+		int winnerIndex=winnerIndex(cumulScores);
+
+		EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party,cumulScores);
 		printVector = egr.getResult();
 
 		Iterator scoreIt = party.getMembers().iterator();
@@ -337,7 +341,6 @@ public class Lane extends Thread implements PinsetterObserver {
 		int myIndex = 0;
 		while (scoreIt.hasNext()){
 			Bowler thisBowler = (Bowler)scoreIt.next();
-			// ScoreReport sr = new ScoreReport( thisBowler, finalScores[myIndex++], gameNumber );
 			
 			bowlerFun(thisBowler, myIndex, printVector);
 			myIndex++;
@@ -348,7 +351,6 @@ public class Lane extends Thread implements PinsetterObserver {
 		EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
 		int result = egp.getResult();
 		egp.distroy();
-		
 		
 		System.out.println("result was: " + result);
 		
