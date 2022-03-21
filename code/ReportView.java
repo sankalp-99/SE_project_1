@@ -106,7 +106,7 @@ public class ReportView implements ActionListener {
 		   }
 		   else{
 			File f = new File("looser.jpeg"); 
-		   res=res+"<center><font size=+2>"+b.getNickName()+"\t"+cumulScores[i][9]+"</font>\t\t<img src=\"file:"+f.toString()+"\"></center><br>";
+		    res=res+"<center><font size=+2>"+b.getNickName()+"\t"+cumulScores[i][9]+"</font>\t\t<img src=\"file:"+f.toString()+"\"></center><br>";
 		   }
         }
 

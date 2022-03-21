@@ -222,7 +222,8 @@ public class DatabaseView implements ActionListener, ListSelectionListener {
 		{
 			Database db=new Database();
 			String res=db.search(s);
-			// clsLabel.setText(res);
+			
+			clsLabel.setText("");
 			ansPanel.append(res);
 			win.setVisible(true);
 
