@@ -27,11 +27,13 @@ public class Bowler {
     private String fullName;
     private String nickName;
     private String email;
+	private int strikeCount;
 
     public Bowler( String nick, String full, String mail ) {
 	nickName = nick;
 	fullName = full;
   	email = mail;
+	strikeCount=0;
     }
 
 
@@ -44,7 +46,6 @@ public class Bowler {
 	public String getFullName ( ) {
 			return fullName;
 	}
-	
 	
 
 	public String getEmail ( ) {
@@ -64,5 +65,17 @@ public class Bowler {
 				retval = false;
 		}
 		return retval;
+	}
+
+	public void increseStrikeCount(){
+		strikeCount++;
+	}
+
+	public int getStrikeCount(){
+		return strikeCount;
+	}
+
+	public void resetStrikeCount(){
+		strikeCount = 0;
 	}
 }

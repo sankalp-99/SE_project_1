@@ -242,33 +242,73 @@ public class Lane extends Thread implements PinsetterObserver {
 			resetBowlerIterator();
 
 			bowlIndex = 0;
-			if (frameNumber > 9) {
+			if (frameNumber >= this.party.getMaxThrow()) {
 
 				// here i code
 				int[][] cumulScores=(int[][])scoreStatus.getCumulScores();
+
+
 				int winIndex=winnerIndex(cumulScores);
 				int winnerScore=cumulScores[winIndex][9];
+
 				cumulScores[winIndex][9]=-1;
 
 				int runnerUpIndex=winnerIndex(cumulScores);
+				int runnerUpScore=cumulScores[runnerUpIndex][9];
+
 				cumulScores[winIndex][9]=winnerScore;
 
 				int secondChance=giveSecondChance();
                 System.out.println(secondChance);
-				if(winnerScore < cumulScores[runnerUpIndex][9] +secondChance)
+
+				
+				Vector newMembers=new Vector();
+				Vector members=(Vector)(party.getMembers());
+
+				// if(winnerScore < cumulScores[runnerUpIndex][9] +secondChance && this.party.getMaxThrow()==10)
+				if(true  && this.party.getMaxThrow()==4)
 				{
-					System.out.println("three more times");
-				}
+
+					// popup: winner and runner up will move ahed for his next thows 
+					// baki logoka score...
+					// press okay to move ahed
+					IntermerdiateResult ir=new IntermerdiateResult(party,cumulScores);
+					int result = ir.getResult();
+					ir.distroy();
 
 
+					
+
+					
 
 
-				gameFinished = true;
-				gameNumber++;
+					newMembers.add((Bowler)members.get(winIndex));
+					newMembers.add((Bowler)members.get(runnerUpIndex));
+					Party newParty=new Party(newMembers,3);
+
+
+                    
+
+
+					
+					frameNumber=1;
+					this.assignParty(newParty);
+				
+				}else{
+
+					if(winnerScore == runnerUpScore){
+						if(((Bowler)members.get(winIndex)).getStrikeCount() < ((Bowler)members.get(runnerUpIndex)).getStrikeCount()){
+							cumulScores[winIndex][9]=((Bowler)members.get(winIndex)).getStrikeCount();
+							cumulScores[runnerUpIndex][9]=((Bowler)members.get(runnerUpIndex)).getStrikeCount();
+						}
+					}
+
+					gameFinished = true;
+					gameNumber++;
+				}				
 			}
 		}
 	}
-
 	
 
 	public int giveSecondChance()
@@ -285,7 +325,7 @@ public class Lane extends Thread implements PinsetterObserver {
 			if (pins[i]) {
 				double pinluck = rnd.nextDouble();
 				
-				if ( ((skill + pinluck)/2.0 * 1.2) > .5 ){
+				if ( ((skill + pinluck)/2.0 * 1.2) > .8 ){
 					pins[i] = false;
 				} 
 				if (!pins[i]) {		// this pin just knocked down

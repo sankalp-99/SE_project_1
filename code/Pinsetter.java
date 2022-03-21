@@ -139,7 +139,7 @@ public class Pinsetter {
 				if (pinluck <= .04){ 
 					foul = true;
 				}
-				if ( ((skill + pinluck)/2.0 * 1.2) > .5 ){
+				if ( ((skill + pinluck)/2.0 * 1.2) > .8 ){
 					pins[i] = false;
 				} 
 				if (!pins[i]) {		// this pin just knocked down

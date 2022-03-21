@@ -28,6 +28,7 @@ public class Party {
 
 	/** Vector of bowlers in this party */	
     private Vector myBowlers;
+	private int maxThrow;
 	
 	/**
 	 * Constructor for a Party
@@ -37,7 +38,18 @@ public class Party {
 		
     public Party( Vector bowlers ) {
 		myBowlers = new Vector(bowlers);
+		this.maxThrow=4;
     }
+
+	public int getMaxThrow()
+	{
+		return this.maxThrow;
+	}
+
+	public Party(Vector bowlers,int maxThrow){
+		myBowlers = new Vector(bowlers);
+		this.maxThrow=maxThrow;
+	}
 
 	/**
 	 * Accessor for members in this party
