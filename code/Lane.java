@@ -265,14 +265,14 @@ public class Lane extends Thread implements PinsetterObserver {
 				Vector newMembers=new Vector();
 				Vector members=(Vector)(party.getMembers());
 
-				// if(winnerScore < cumulScores[runnerUpIndex][9] +secondChance && this.party.getMaxThrow()==10)
-				if(true  && this.party.getMaxThrow()==4)
+				if(winnerScore < cumulScores[runnerUpIndex][9] +secondChance && this.party.getMaxThrow()==10)
+				// if(true  && this.party.getMaxThrow()==4)
 				{
 
-					// popup: winner and runner up will move ahed for his next thows 
+					// popup: winner and runner up will move ahead for his next thows 
 					// baki logoka score...
-					// press okay to move ahed
-					IntermerdiateResult ir=new IntermerdiateResult(party,cumulScores);
+					// press okay to move ahead
+					IntermediateResult ir=new IntermediateResult(party,cumulScores);
 					int result = ir.getResult();
 					ir.distroy();
 
@@ -325,7 +325,7 @@ public class Lane extends Thread implements PinsetterObserver {
 			if (pins[i]) {
 				double pinluck = rnd.nextDouble();
 				
-				if ( ((skill + pinluck)/2.0 * 1.2) > .8 ){
+				if ( ((skill + pinluck)/2.0 * 1.2) > .5 ){
 					pins[i] = false;
 				} 
 				if (!pins[i]) {		// this pin just knocked down

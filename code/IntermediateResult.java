@@ -13,7 +13,7 @@ import java.util.*;
 import javax.swing.border.*;
 
 
-public class IntermerdiateResult implements ActionListener {
+public class IntermediateResult implements ActionListener {
     Party party;
 	private JFrame win;
 	private JButton yesButton;
@@ -26,7 +26,7 @@ public class IntermerdiateResult implements ActionListener {
    
 
 	
-	public IntermerdiateResult( Party party ,int cumulScores[][]) {
+	public IntermediateResult( Party party ,int cumulScores[][]) {
         this.cumulScores=cumulScores;
         this.party=party;
 		result=0;

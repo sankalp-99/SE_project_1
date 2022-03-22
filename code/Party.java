@@ -38,7 +38,7 @@ public class Party {
 		
     public Party( Vector bowlers ) {
 		myBowlers = new Vector(bowlers);
-		this.maxThrow=4;
+		this.maxThrow=10;
     }
 
 	public int getMaxThrow()
