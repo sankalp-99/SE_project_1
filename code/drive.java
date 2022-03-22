@@ -5,8 +5,10 @@ public class drive {
 
 	public static void main(String[] args) {
 
-		int numLanes = 3;
-		int maxPatronsPerParty=4;
+		UserConfiguration uc=new UserConfiguration();
+
+		int numLanes = uc.getNickName();
+		int maxPatronsPerParty=uc.getFull();
 
 		Alley a = new Alley( numLanes );
 		ControlDesk controlDesk = a.getControlDesk();

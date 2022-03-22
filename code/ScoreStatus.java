@@ -186,17 +186,10 @@ private void preWork(Bowler Cur, int bowlIndex){
 		}
 	}
 
-	private void postWork(Bowler Cur, int bowlIndex, int frame, int ball){
+	private void postWork(Bowler Cur, int bowlIndex, int frame){
         int[] curScore;
         curScore = (int[]) scores.get(Cur);
-        // System.out.println();
-        // System.out.println("***************");
-        // System.out.println(Cur.getNickName() + " " + bowlIndex + " => " + frame + " : " + ball);
-        // System.out.print("Before :: ");
-        // for(int i=0; i<frame; i++){
-        //  System.out.print(cumulScores[bowlIndex][i] + "("+curScore[i*2]+","+curScore[i*2+1]+") ");
-        // }
-        // System.out.println();
+      
         int highest = -1;
         if(curScore[0] == 0 && curScore[1] == 0){
             highest = 0;
@@ -205,33 +198,22 @@ private void preWork(Bowler Cur, int bowlIndex){
             highest = Math.max(curScore[0], curScore[1]);
         }
         for(int frameNum=1; frameNum<frame; frameNum++){
-            if(curScore[frameNum * 2] == 0){
-                // System.out.println();
-                // System.out.println("IN");
-                // System.out.println();
-                if(curScore[(frameNum-1) * 2] != 10 && curScore[(frameNum-1) * 2 + 1] == 0){
+            
+                if(curScore[frameNum * 2] == 0 && curScore[(frameNum-1) * 2] != 10 && curScore[(frameNum-1) * 2 + 1] == 0){
                     cumulScores[bowlIndex][frameNum] -= Math.ceil((float)highest/2);
                 }
-                if(curScore[frameNum * 2 + 1] == 0){
+                if(curScore[frameNum * 2] == 0 && curScore[frameNum * 2 + 1] == 0){
                     cumulScores[bowlIndex][frameNum] -= Math.ceil((float)highest/2);
                 }
-            }
+           
             highest = Math.max(highest, curScore[frameNum * 2]);
             highest = Math.max(highest, curScore[frameNum * 2 + 1]);            
         }
-        if(curScore[9 * 2 + 2] == 0){
-            if(curScore[9*2 + 1] == 0){
-                cumulScores[bowlIndex][9] -= Math.ceil((float)highest/2);
-            }
+        if(curScore[9 * 2 + 2] == 0  && curScore[9*2 + 1] == 0){
+        cumulScores[bowlIndex][9] -= Math.ceil((float)highest/2);
+            
         }
-        // System.out.print("After  :: ");
-        
-        // for(int i=0; i<frame; i++){
-        //  System.out.print(cumulScores[bowlIndex][i] + " ");
-        // }
-        // System.out.println();
-        // System.out.println("***************");
-        // System.out.println();
+       
     }
     private void findStrikeCount(Bowler Cur){
         int[] curScore;
@@ -242,7 +224,7 @@ private void preWork(Bowler Cur, int bowlIndex){
                 Cur.increseStrikeCount();           
         }
     }
-    public int getScore( Bowler Cur, int frame, int bowlIndex, int ball) {
+    public int getScore( Bowler Cur, int frame, int bowlIndex,int ball) {
         
         // System.out.println("here : ");
         findStrikeCount(Cur);
@@ -250,7 +232,7 @@ private void preWork(Bowler Cur, int bowlIndex){
         first8FrameWorkFun(Cur, bowlIndex);
         ninethFrameWorkFun(Cur, bowlIndex);
         tenthFrameWorkFun(Cur, bowlIndex);
-        postWork(Cur, bowlIndex, frame, ball);
+        postWork(Cur, bowlIndex, frame);
         accumulateScore(bowlIndex);
         // for(int i=0;i<10;i++)
         // System.out.print(cumulScores[bowlIndex][i]+" ");

@@ -22,28 +22,28 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 
-public class NewPatronView implements ActionListener {
+public class UserConfiguration implements ActionListener {
 
 
-
+    int result=0;
 	private JFrame win;
 	private JButton abort,addPatron;
-	private JLabel nickLabel, fullLabel, emailLabel;
-	private JTextField nickField, fullField, emailField;
-	private String nick, full, email;
+	private JLabel nickLabel, fullLabel;
+	private JTextField nickField, fullField;
+	private int nick, full;
 
 	private boolean done;
 
 
-	private AddPartyView addParty;
+	
 
-	public NewPatronView(AddPartyView v) {
-
-		addParty=v;	
+	public UserConfiguration() {
+        
+		
 		done = false;
 
 
-		win = new JFrame("Add Patron");
+		win = new JFrame("Configure Your Game");
 		win.getContentPane().setLayout(new BorderLayout());
 		((JPanel) win.getContentPane()).setOpaque(false);
 
@@ -53,19 +53,17 @@ public class NewPatronView implements ActionListener {
 		// Patron Panel
 		JPanel patronPanel = new JPanel();
 		patronPanel.setLayout(new GridLayout(3, 1));
-		patronPanel.setBorder(new TitledBorder("Your Info"));
+		patronPanel.setBorder(new TitledBorder("Game Info"));
 		
-		nickLabel = new JLabel("Nick Name");
+		nickLabel = new JLabel("Number of Lanes");
 		nickField = new JTextField("", 15);
-		fullLabel = new JLabel("Full Name");
+		fullLabel = new JLabel("Max patrons per party");
 		fullField = new JTextField("", 15);
-		emailLabel = new JLabel("E-Mail");
-		emailField = new JTextField("", 15);
+		
 		
 		makePanel("Nick Name",patronPanel,nickLabel,nickField);
 		makePanel("Full Name",patronPanel,fullLabel,fullField);
-		makePanel("E-Mail",patronPanel,emailLabel,emailField);
-		
+	
 		
 		
 
@@ -75,7 +73,7 @@ public class NewPatronView implements ActionListener {
 		buttonPanel.setLayout(new GridLayout(4, 1));
 
 		
-		addPatron = makeButton(buttonPanel,"Add Patron");
+		addPatron = makeButton(buttonPanel,"Set configurations");
 		abort = makeButton(buttonPanel,"Abort");
 
 		// Clean up main panel
@@ -92,6 +90,8 @@ public class NewPatronView implements ActionListener {
 			((screenSize.width) / 2) - ((win.getSize().width) / 2),
 			((screenSize.height) / 2) - ((win.getSize().height) / 2));
 		win.show();
+
+        getResult();
 
 	}
 	
@@ -124,11 +124,11 @@ public class NewPatronView implements ActionListener {
 		}
 
 		if (e.getSource().equals(addPatron)) {
-			nick = nickField.getText();
-			full = fullField.getText();
-			email = emailField.getText();
+			nick = Integer.parseInt(nickField.getText());
+			full = Integer.parseInt(fullField.getText());
+			result=1;
 			done = true;
-			addParty.updateNewPatron( this );
+			
 			win.hide();
 		}
 
@@ -138,16 +138,26 @@ public class NewPatronView implements ActionListener {
 		return done;
 	}
 
-	public String getNickName() {
+	public int getNickName() {
 		return nick;
 	}
 
-	public String getFull() {
+	public int getFull() {
 		return full;
 	}
 
-	public String getEmail() {
-		return email;
+    public int getResult() {
+		while ( result == 0 ) {
+			try {
+				Thread.sleep(10);
+			} catch ( InterruptedException e ) {
+				System.err.println( "Interrupted" );
+			}
+		}
+		return result;	
 	}
+
+
+	
 
 }

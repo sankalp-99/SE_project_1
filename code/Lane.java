@@ -245,7 +245,7 @@ public class Lane extends Thread implements PinsetterObserver {
 			if (frameNumber >= this.party.getMaxThrow()) {
 
 				// here i code
-				int[][] cumulScores=(int[][])scoreStatus.getCumulScores();
+				int[][] cumulScores=scoreStatus.getCumulScores();
 
 
 				int winIndex=winnerIndex(cumulScores);
@@ -263,17 +263,15 @@ public class Lane extends Thread implements PinsetterObserver {
 
 				
 				Vector newMembers=new Vector();
-				Vector members=(Vector)(party.getMembers());
+				Vector members=party.getMembers();
 
 				if(winnerScore < cumulScores[runnerUpIndex][9] +secondChance && this.party.getMaxThrow()==10)
 				// if(true  && this.party.getMaxThrow()==4)
 				{
 
-					// popup: winner and runner up will move ahead for his next thows 
-					// baki logoka score...
-					// press okay to move ahead
+					
 					IntermediateResult ir=new IntermediateResult(party,cumulScores);
-					int result = ir.getResult();
+					ir.getResult();
 					ir.distroy();
 
 
@@ -296,11 +294,11 @@ public class Lane extends Thread implements PinsetterObserver {
 				
 				}else{
 
-					if(winnerScore == runnerUpScore){
-						if(((Bowler)members.get(winIndex)).getStrikeCount() < ((Bowler)members.get(runnerUpIndex)).getStrikeCount()){
+					
+					if(winnerScore == runnerUpScore && ((Bowler)members.get(winIndex)).getStrikeCount() < ((Bowler)members.get(runnerUpIndex)).getStrikeCount()){
 							cumulScores[winIndex][9]=((Bowler)members.get(winIndex)).getStrikeCount();
 							cumulScores[runnerUpIndex][9]=((Bowler)members.get(runnerUpIndex)).getStrikeCount();
-						}
+						
 					}
 
 					gameFinished = true;

@@ -83,7 +83,7 @@ public class IntermediateResult implements ActionListener {
 
     private JLabel displayResult()
     {
-        System.out.println("rishu");
+        // System.out.println("rishu");
        String res="<html><B><center>Bowling Score Report</center><br> <center>Lucky Strikes Bowling Club</center></B>\n\n\n";
        
        
